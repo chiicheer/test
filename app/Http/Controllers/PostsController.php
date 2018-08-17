@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
+use App\Post;
 
-class UsersController extends Controller
+class PostsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,8 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return view('users.index', ['users' => $users]);
+        $posts=Post::orderBy('created_at', 'desc')->get();
+        return view('posts.index')->with('posts', $posts);
     }
 
     /**
@@ -25,7 +25,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        return view('posts.create');
     }
 
     /**
@@ -36,15 +36,12 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
+        $post= new Post();
+        $post->title=$request->input('title');
+        $post->body=$request->input('body');
+        $post->save();
 
-        $user= new User();
-        $user->name=$request->input('name');
-        $user->company=$request->input('company');
-        $user->email=$request->input('email');
-        $user->password=$request->input('password');
-        $user->save();
-
-        return redirect('/users');
+        return redirect('/posts');
     }
 
     /**
@@ -55,8 +52,8 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $user=User::find($id);
-        return view('users.show', ['user' => $user]);
+        $post=Post::find($id);
+        return view('posts.show')->with('post', $post);
     }
 
     /**
@@ -67,8 +64,8 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $user=User::find($id);
-        return view('users.edit')->with('user', $user);
+        $post=Post::find($id);
+        return view('posts.edit')->with('post', $post);
     }
 
     /**
@@ -80,14 +77,12 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user=User::find($id);
-        $user->name=$request->input('name');
-        $user->company=$request->input('company');
-        $user->email=$request->input('email');
-        $user->password=$request->input('password');
-        $user->save();
+        $post=Post::find($id);
+        $post->title=$request->input('title');
+        $post->body=$request->input('body');
+        $post->save();
 
-        return redirect('/users');
+        return redirect('/posts');
     }
 
     /**
@@ -98,8 +93,8 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        $user=User::find($id);
-        $user->delete();
-        return redirect('/users');
+        $post=Post::find($id);
+        $post->delete();
+        return redirect('/posts');
     }
 }

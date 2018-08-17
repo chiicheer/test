@@ -19,5 +19,9 @@
                 @endforeach
             </tbody>
         </table>
+
+        <br>
+        <br>
+        <a href="/users/create" class="btn btn-primary">{{ Form::submit('Creatae', ['class'=>'btn btn-primary']) }}</a>
     </div>
 </div>

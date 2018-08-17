@@ -13,3 +13,4 @@
 
 Route::get("/", "PagesController@index");
 Route::resource("users", "UsersController");
+Route::resource("posts", "PostsController");		
